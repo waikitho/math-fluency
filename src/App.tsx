@@ -248,30 +248,33 @@ function App() {
         <div className="progress-track" aria-label={`${questionNumber} of ${totalQuestions} questions`}><span style={{ width: `${progress}%` }} /></div>
         <section className="quiz-card" aria-labelledby="question-title">
           <div className={`timer ${secondsLeft === 1 ? 'timer-alert' : ''}`}><span aria-hidden="true">◷</span> {secondsLeft}s</div>
-          <p className="eyebrow">Solve it!</p>
-          <h1 id="question-title">What is {question.first} {operationSymbols[question.operation]} {question.second}?</h1>
-          {revealAnswer !== null && <p className="answer-reveal">The answer is <strong>{revealAnswer}</strong></p>}
-          {revealAnswer === null && <form onSubmit={submitAnswer}>
-            <label htmlFor="answer">Your answer</label>
-            <input
-              id="answer"
-              type="number"
-              inputMode="numeric"
-              autoFocus
-              min="0"
-              value={answer}
-              onChange={(event) => setAnswer(event.target.value)}
-              aria-label="Your answer"
-            />
-            <button className="primary-button" type="submit">Check answer <span aria-hidden="true">→</span></button>
-          </form>}
-          {revealAnswer === null && <div className="number-pad" aria-label="Number pad">
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((number) => <button key={number} type="button" onClick={() => setAnswer((current) => `${current}${number}`)}>{number}</button>)}
-            <button type="button" className="number-pad-clear" onClick={() => setAnswer('')}>Clear</button>
-            <button type="button" onClick={() => setAnswer((current) => `${current}0`)}>0</button>
-            <button type="button" className="number-pad-delete" onClick={() => setAnswer((current) => current.slice(0, -1))}>⌫</button>
-          </div>}
-          <p className="hint">Quick thinking, kind brain.</p>
+          <div className="quiz-content">
+            <div className="question-side">
+              <p className="eyebrow">Solve it!</p>
+              <h1 id="question-title">What is {question.first} {operationSymbols[question.operation]} {question.second}?</h1>
+              {revealAnswer !== null && <p className="answer-reveal">The answer is <strong>{revealAnswer}</strong></p>}
+              {revealAnswer === null && <form onSubmit={submitAnswer}>
+                <label htmlFor="answer">Your answer</label>
+                <input
+                  id="answer"
+                  type="number"
+                  inputMode="numeric"
+                  min="0"
+                  value={answer}
+                  onChange={(event) => setAnswer(event.target.value)}
+                  aria-label="Your answer"
+                />
+                <button className="primary-button" type="submit">Check answer <span aria-hidden="true">→</span></button>
+              </form>}
+              <p className="hint">Quick thinking, kind brain.</p>
+            </div>
+            {revealAnswer === null && <div className="number-pad" aria-label="Number pad">
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((number) => <button key={number} autoFocus={number === 1} type="button" onClick={() => setAnswer((current) => `${current}${number}`)}>{number}</button>)}
+              <button type="button" className="number-pad-clear" onClick={() => setAnswer('')}>Clear</button>
+              <button type="button" onClick={() => setAnswer((current) => `${current}0`)}>0</button>
+              <button type="button" className="number-pad-delete" onClick={() => setAnswer((current) => current.slice(0, -1))}>⌫</button>
+            </div>}
+          </div>
         </section>
       </main>
     )
