@@ -27,6 +27,15 @@ button { cursor: pointer; }
 h1 { color: var(--ink); font-family: 'Space Grotesk', sans-serif; font-size: clamp(3.6rem, 9vw, 6.5rem); letter-spacing: -.075em; line-height: .92; margin: 14px 0 24px; }
 h1 em { color: var(--blue); font-style: normal; }
 .intro { color: var(--muted); font-size: 19px; line-height: 1.55; }
+.history-panel { background: rgba(255, 255, 255, .72); border: 1px solid #f1eadc; border-radius: 18px; margin-top: 14px; max-width: 640px; padding: 18px 22px; text-align: left; width: 100%; }
+.history-panel h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); letter-spacing: -.06em; margin: 0 0 14px; text-align: center; }
+.history-table { border-collapse: collapse; width: 100%; }
+.history-table th { color: var(--muted); font-size: 11px; letter-spacing: .06em; padding: 0 8px 8px; text-transform: uppercase; }
+.history-table td { border-top: 1px solid #eee7db; color: var(--ink); font-size: 14px; padding: 9px 8px; }
+.history-table th:not(:first-child), .history-table td:not(:first-child) { text-align: right; }
+.score-link { background: transparent; border: 0; color: var(--blue); font-weight: 700; padding: 3px 0; text-decoration: underline; text-underline-offset: 3px; }
+.score-link:hover, .score-link:focus-visible { color: var(--blue-dark); outline: 2px solid var(--yellow); outline-offset: 3px; }
+.empty-history { color: var(--muted); font-size: 14px; margin: 0; text-align: center; }
 .settings-panel { background: rgba(255, 255, 255, .7); border: 1px solid #f1eadc; border-radius: 18px; margin-top: 24px; max-width: 640px; padding: 18px; text-align: left; width: 100%; }
 .settings-grid { display: grid; gap: 12px; grid-template-columns: repeat(4, 1fr); }
 .settings-grid label { color: var(--muted); display: flex; flex-direction: column; font-size: 12px; font-weight: 700; gap: 6px; }
@@ -42,6 +51,7 @@ legend { color: var(--muted); font-size: 12px; font-weight: 700; padding: 0; }
 .primary-button:hover { background: #4c78ed; transform: translateY(-2px); box-shadow: 0 8px 0 var(--blue-dark); }
 .primary-button:active { box-shadow: 0 2px 0 var(--blue-dark); transform: translateY(3px); }
 .primary-button:focus-visible { outline: 3px solid var(--yellow); outline-offset: 4px; }
+.primary-button:disabled { background: #aebce4; box-shadow: 0 6px 0 #8c9bc8; cursor: not-allowed; transform: none; }
 .primary-button span { font-size: 24px; line-height: 15px; }
 .start-button { font-size: 17px; margin-top: 35px; min-width: 210px; }
 .subtle-note, .footer-note { color: #9aa1b2; font-size: 13px; margin-top: 25px; }
@@ -56,8 +66,10 @@ legend { color: var(--muted); font-size: 12px; font-weight: 700; padding: 0; }
 .question-count span { color: #a1a8b7; }
 .progress-track { background: #e3e9f8; border-radius: 8px; height: 8px; margin: 28px auto 0; max-width: 760px; overflow: hidden; }
 .progress-track span { background: var(--blue); border-radius: inherit; display: block; height: 100%; transition: width .3s ease; }
-.quiz-card { background: white; border: 1px solid #e9eef9; border-radius: 24px; box-shadow: 0 20px 50px rgba(40, 70, 140, .09); margin: 34px auto 0; max-width: 920px; padding: 34px 42px 28px; position: relative; text-align: center; width: 100%; }
-.quiz-content { align-items: center; display: grid; gap: 48px; grid-template-columns: minmax(0, 1fr) 270px; min-height: 390px; }
+.time-track { background: #f3dbe2; height: 6px; margin: 8px auto 0; max-width: 920px; overflow: hidden; }
+.time-track span { background: var(--pink); display: block; height: 100%; transition: width 1s linear; }
+.quiz-card { background: white; border: 1px solid #e9eef9; border-radius: 24px; box-shadow: 0 20px 50px rgba(40, 70, 140, .09); margin: 28px auto 0; max-width: 920px; padding: 26px 32px 22px; position: relative; text-align: center; width: 100%; }
+.quiz-content { align-items: center; display: grid; gap: 34px; grid-template-columns: minmax(0, 1fr) 270px; min-height: 360px; }
 .question-side { align-items: center; display: flex; flex-direction: column; min-width: 0; }
 .quiz-card h1 { font-size: clamp(2.6rem, 6vw, 4.5rem); letter-spacing: -.06em; margin: 15px 0 32px; }
 .timer { color: var(--blue); font-size: 15px; font-weight: 700; position: absolute; right: 28px; top: 25px; }
@@ -71,8 +83,8 @@ legend { color: var(--muted); font-size: 12px; font-weight: 700; padding: 0; }
 .answer-reveal { animation: answer-flash .45s ease-in-out infinite alternate; color: var(--pink); font-size: 18px; margin: -20px 0 24px; }
 .answer-reveal strong { color: var(--ink); font-family: 'Space Grotesk', sans-serif; font-size: 28px; }
 @keyframes answer-flash { from { opacity: .55; } to { opacity: 1; } }
-.number-pad { display: grid; gap: 10px; grid-template-columns: repeat(3, 1fr); margin: 0 auto; max-width: 270px; width: 100%; }
-.number-pad button { background: #f1f4fc; border: 1px solid #e0e6f4; border-radius: 10px; color: var(--ink); font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; min-height: 48px; }
+.number-pad { display: grid; gap: 7px; grid-template-columns: repeat(3, minmax(100px, 1fr)); margin: 0 auto; max-width: 314px; width: 100%; }
+.number-pad button { aspect-ratio: 1; background: #f1f4fc; border: 1px solid #e0e6f4; border-radius: 10px; color: var(--ink); font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 600; min-height: 100px; }
 .number-pad button:hover, .number-pad button:focus-visible { background: #e2e9fc; border-color: var(--blue); outline: 0; }
 .number-pad .number-pad-clear, .number-pad .number-pad-delete { color: var(--blue); font-family: 'DM Sans', sans-serif; font-size: 12px; }
 .hint { color: #a1a8b7; font-size: 13px; margin: 28px 0 0; }
@@ -87,6 +99,18 @@ legend { color: var(--muted); font-size: 12px; font-weight: 700; padding: 0; }
 .stat span { color: var(--muted); font-size: 11px; margin-top: 4px; }
 .stat-blue { background: #e7edff; }.stat-green { background: #e1f7ed; }.stat-orange { background: #fff0e3; }.stat-pink { background: #ffe8ef; }
 .footer-note { margin-top: 35px; }
+.missed-panel { margin: 28px auto 0; max-width: 600px; width: 100%; }
+.missed-panel h2 { color: var(--ink); font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin: 0 0 12px; }
+.missed-list { display: grid; gap: 8px; max-height: 230px; overflow-y: auto; }
+.missed-question { align-items: center; background: #fff; border: 1px solid #f0e4e7; border-radius: 10px; display: grid; font-size: 13px; gap: 8px; grid-template-columns: 1fr 1fr 1.2fr; padding: 10px 12px; text-align: left; }
+.missed-question strong { color: var(--ink); font-family: 'Space Grotesk', sans-serif; }
+.missed-question span { color: var(--muted); }
+.missed-question em { color: var(--pink); font-size: 12px; font-style: normal; }
+.modal-backdrop { align-items: center; background: rgba(24, 34, 58, .48); display: flex; inset: 0; justify-content: center; padding: 24px; position: fixed; z-index: 10; }
+.history-modal { background: var(--cream); border-radius: 20px; box-shadow: 0 24px 80px rgba(24, 34, 58, .28); max-height: min(700px, 90svh); max-width: 580px; overflow-y: auto; padding: 30px; position: relative; width: 100%; }
+.history-modal h2 { color: var(--ink); font-family: 'Space Grotesk', sans-serif; font-size: 28px; margin: 8px 0 18px; }
+.modal-close { background: #fff; border: 1px solid #eadfce; border-radius: 50%; color: var(--ink); font-size: 24px; height: 34px; line-height: 1; position: absolute; right: 18px; top: 18px; width: 34px; }
+.modal-close:hover, .modal-close:focus-visible { border-color: var(--blue); outline: 0; }
 @media (max-width: 540px) {
   .start-shell { padding-bottom: 18px; padding-top: 18px; }
   .spark-icon { margin-top: 42px; }
@@ -101,7 +125,8 @@ legend { color: var(--muted); font-size: 12px; font-weight: 700; padding: 0; }
   .start-shell { height: auto; min-height: 100svh; overflow: visible; }
   .quiz-shell { height: auto; min-height: 100svh; overflow: visible; }
   .quiz-content { grid-template-columns: 1fr; }
-  .number-pad { max-width: 240px; }
+  .number-pad { max-width: 320px; }
+  .missed-question { grid-template-columns: 1fr; gap: 3px; }
 }
 
 @media (min-width: 701px) and (max-height: 850px) {
@@ -111,4 +136,6 @@ legend { color: var(--muted); font-size: 12px; font-weight: 700; padding: 0; }
   .welcome-panel .intro { font-size: 16px; }
   .settings-panel { margin-top: 16px; padding: 14px; }
   .start-button { margin-top: 20px; padding-bottom: 13px; padding-top: 13px; }
+  .history-panel { padding-bottom: 12px; padding-top: 12px; }
+  .history-panel h1 { margin-bottom: 8px; }
 }
