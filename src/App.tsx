@@ -311,6 +311,11 @@ function App() {
   const score = results.attempted
     ? Math.round((results.correct / results.attempted) * 100)
     : 0
+  const resultsMessage = score === 100
+    ? "Great job! Someone's cooking!"
+    : score > 90
+      ? 'Almost there!'
+      : 'You got this - Perfect Practice makes Perfection.'
 
   if (screen === 'results') {
     return (
@@ -318,7 +323,7 @@ function App() {
         <div className="top-mark" aria-hidden="true">× ÷ + −</div>
         <section className="results-panel" aria-labelledby="results-title">
           <p className="eyebrow">Practice complete</p>
-          <h1 id="results-title">You did it!</h1>
+          <h1 id="results-title">{resultsMessage}</h1>
           <div className="score-circle" aria-label={`Score ${score} percent`}>
             <strong>{score}%</strong>
             <span>score</span>
@@ -362,7 +367,7 @@ function App() {
           <div className="quiz-content">
             <div className="question-side">
               <p className="eyebrow">Solve it!</p>
-              <h1 id="question-title">What is {question.first} {operationSymbols[question.operation]} {question.second}?</h1>
+              <h1 id="question-title">{question.first} {operationSymbols[question.operation]} {question.second}?</h1>
               {revealAnswer !== null && <p className="answer-reveal">The answer is <strong>{revealAnswer}</strong></p>}
               {revealAnswer === null && <form onSubmit={submitAnswer}>
                 <label htmlFor="answer">Your answer</label>

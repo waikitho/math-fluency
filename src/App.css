@@ -69,8 +69,8 @@ legend { color: var(--muted); font-size: 12px; font-weight: 700; padding: 0; }
 .time-track { background: #f3dbe2; height: 6px; margin: 8px auto 0; max-width: 920px; overflow: hidden; }
 .time-track span { background: var(--pink); display: block; height: 100%; transition: width 1s linear; }
 .quiz-card { background: white; border: 1px solid #e9eef9; border-radius: 24px; box-shadow: 0 20px 50px rgba(40, 70, 140, .09); margin: 28px auto 0; max-width: 920px; padding: 26px 32px 22px; position: relative; text-align: center; width: 100%; }
-.quiz-content { align-items: center; display: grid; gap: 34px; grid-template-columns: minmax(0, 1fr) 270px; min-height: 360px; }
-.question-side { align-items: center; display: flex; flex-direction: column; min-width: 0; }
+.quiz-content { align-items: center; display: grid; gap: 20px; grid-template-columns: minmax(0, 1fr) 314px; min-height: 360px; }
+.question-side { align-items: center; display: flex; flex-direction: column; justify-self: center; max-width: 360px; min-width: 0; width: 100%; }
 .quiz-card h1 { font-size: clamp(2.6rem, 6vw, 4.5rem); letter-spacing: -.06em; margin: 15px 0 32px; }
 .timer { color: var(--blue); font-size: 15px; font-weight: 700; position: absolute; right: 28px; top: 25px; }
 .timer-alert { color: var(--pink); }
