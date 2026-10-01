@@ -41,6 +41,12 @@ npm run preview
 
 For a static web server such as Synology Web Station, upload the contents of `dist` to the site document root. The document root should contain `index.html` and the `assets` directory. No Node.js server is required to host the built files.
 
+To build and deploy the contents of `dist` to `Z:\math-fluency` on Windows, make sure the `Z:` drive is available and run:
+
+```bash
+npm run deploy
+```
+
 ## Screenshots
 
 ![Start screen](src/screenshots/Screenshot1.png)

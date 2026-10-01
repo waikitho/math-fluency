@@ -163,7 +163,6 @@ function App() {
   const [totalQuestions, setTotalQuestions] = useState(config.questionCount)
   const [secondsLeft, setSecondsLeft] = useState(config.secondsPerQuestion)
   const [revealAnswer, setRevealAnswer] = useState<number | null>(null)
-  const [submitLocked, setSubmitLocked] = useState(true)
   const [results, setResults] = useState<Results>(emptyResults)
   const [missedQuestions, setMissedQuestions] = useState<MissedQuestion[]>([])
   const [history, setHistory] = useState<DailyHistory[]>(loadHistory)
@@ -188,7 +187,6 @@ function App() {
     setSecondsLeft(config.secondsPerQuestion)
     setAnswer('')
     setRevealAnswer(null)
-    setSubmitLocked(true)
     setResults(emptyResults)
     setMissedQuestions([])
     setScreen('quiz')
@@ -254,7 +252,6 @@ function App() {
     setQuestionNumber((number) => number + 1)
     setSecondsLeft(config.secondsPerQuestion)
     setAnswer('')
-    setSubmitLocked(true)
   }, [answer, config, missedQuestions, question, questionNumber, results, totalQuestions])
 
   const advanceAfterReveal = useCallback(() => {
@@ -270,14 +267,7 @@ function App() {
     setSecondsLeft(config.secondsPerQuestion)
     setAnswer('')
     setRevealAnswer(null)
-    setSubmitLocked(true)
   }, [config, missedQuestions, questionNumber, results, totalQuestions])
-
-  useEffect(() => {
-    if (screen !== 'quiz' || !submitLocked) return
-    const lockTimer = window.setTimeout(() => setSubmitLocked(false), 1000)
-    return () => window.clearTimeout(lockTimer)
-  }, [screen, submitLocked])
 
   useEffect(() => {
     if (screen !== 'quiz' || revealAnswer !== null) return
@@ -303,7 +293,7 @@ function App() {
 
   const submitAnswer = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (submitLocked) return
+    if (!answer.trim()) return
     const numericAnswer = Number(answer)
     finishQuestion(numericAnswer === question.answer ? 'correct' : 'wrong')
   }
@@ -380,7 +370,7 @@ function App() {
                   onChange={(event) => setAnswer(event.target.value)}
                   aria-label="Your answer"
                 />
-                <button className="primary-button" type="submit" disabled={submitLocked}>Check answer <span aria-hidden="true">→</span></button>
+                <button className="primary-button" type="submit" disabled={!answer.trim()}>Check answer <span aria-hidden="true">→</span></button>
               </form>}
               <p className="hint">Quick thinking, kind brain.</p>
             </div>
@@ -403,8 +393,6 @@ function App() {
       <div className="confetti confetti-three" aria-hidden="true">△</div>
       <section className="welcome-panel" aria-labelledby="welcome-title">
         <div className="brand-mark"><span aria-hidden="true">✦</span> Math sparks</div>
-        <div className="spark-icon" aria-hidden="true">×</div>
-        <p className="eyebrow">You got this</p>
         <section className="history-panel" aria-labelledby="welcome-title">
           <h3 id="welcome-title">High Scores</h3>
           {history.length > 0 ? <table className="history-table">

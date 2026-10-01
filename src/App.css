@@ -59,7 +59,7 @@ legend { color: var(--muted); font-size: 12px; font-weight: 700; padding: 0; }
 .confetti-one { left: 15%; top: 24%; transform: rotate(18deg); }
 .confetti-two { color: var(--orange); right: 17%; top: 18%; font-size: 17px; }
 .confetti-three { bottom: 21%; color: var(--green); right: 13%; transform: rotate(22deg); }
-.quiz-shell { background: #f5f8ff; color: var(--ink); height: 100svh; overflow: hidden; padding: 24px max(24px, 8vw); }
+.quiz-shell { background: #f5f8ff; color: var(--ink); height: 100vh; height: 100dvh; inset: 0; overflow: hidden; overscroll-behavior: none; padding: 24px max(24px, 8vw); position: fixed; touch-action: none; width: 100%; }
 .quiz-header { align-items: center; display: flex; justify-content: space-between; margin: 0 auto; max-width: 760px; }
 .question-count { color: var(--muted); font-size: 14px; }
 .question-count strong { color: var(--blue); }
@@ -123,7 +123,6 @@ legend { color: var(--muted); font-size: 12px; font-weight: 700; padding: 0; }
 
 @media (max-width: 700px) {
   .start-shell { height: auto; min-height: 100svh; overflow: visible; }
-  .quiz-shell { height: auto; min-height: 100svh; overflow: visible; }
   .quiz-content { grid-template-columns: 1fr; }
   .number-pad { max-width: 320px; }
   .missed-question { grid-template-columns: 1fr; gap: 3px; }
